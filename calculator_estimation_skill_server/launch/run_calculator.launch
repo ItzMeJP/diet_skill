@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="action_name" default='CalculatorEstimationSkill'/>
+    <arg name="yaml_0_calculator_pipeline" default="$(find calculator_estimation_skill_server)/yaml/calculator_pipeline.yaml"/>
+
+    <!-- Node Skill -->
+    <node name="calculator_estimation_skill" pkg="calculator_estimation_skill_server" type="calculator_estimation_skill_server_node" output="screen">
+        <param name="action_name" value='$(arg action_name)' />
+        <rosparam command="load" ns="operations" file="$(arg yaml_0_calculator_pipeline)" subst_value="true"/>
+    </node>
+</launch>
+

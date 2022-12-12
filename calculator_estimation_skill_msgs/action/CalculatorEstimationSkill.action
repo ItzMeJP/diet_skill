@@ -1,0 +1,13 @@
+#goal definition
+int32 operation_mode 
+
+---
+#result definition
+calculator_estimation_skill_msgs/CalculatorResult calc_result
+int32 percentage
+
+---
+#feedback
+int32 percentage
+
+
