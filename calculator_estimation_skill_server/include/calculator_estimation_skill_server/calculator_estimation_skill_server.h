@@ -6,9 +6,12 @@
 
 // Skill msgs includes
 #include <calculator_estimation_skill_msgs/CalculatorEstimationSkillAction.h>
+#include <calculator_estimation_skill_msgs/CalculatorResult.h>
 
 // Skill includes
 #include <calculator_estimation_skill_server/calculator_estimation_base.h>
+#include <calculator_estimation_skill_server/sum_estimation.h>
+#include <calculator_estimation_skill_server/sub_estimation.h>
 
 
 // Std includes
@@ -28,16 +31,11 @@ namespace calculator_estimation_skill {
 
         ~CalculatorEstimationSkill (void);
 
-        enum OPERATION_MODE {
-            DIRECT,
-            PRE_LOAD,
-            STANDLONE_RUN
-        };
 
         void start (); //start the server
 
         void executeCB (
-                const grasp_estimation_skill_msgs::GraspEstimationSkillGoalConstPtr &goal); // recognize the goal request
+                const calculator_estimation_skill_msgs::CalculatorEstimationSkillGoalConstPtr &goal); // recognize the goal request
 
         void feedback (float percentage);
 
@@ -50,16 +48,7 @@ namespace calculator_estimation_skill {
         bool setupSkillConfigurationFromParameterServer (ros::NodeHandlePtr &_node_handle,
                                                          ros::NodeHandlePtr &_private_node_handle);
 
-        bool generateLog (); //only use when server shutdown
 
-        struct LogData {
-            std::string   detected_object;
-            //TODO: insert object pose
-            std::string   candidate_chosen;
-            ros::Duration decision_time;
-        };
-
-        std::vector<LogData> log_data_arr_;
 
 
     protected:
@@ -67,14 +56,36 @@ namespace calculator_estimation_skill {
         ros::NodeHandlePtr node_handle_;
         ros::NodeHandlePtr private_node_handle_;
         ros::Publisher     pub_candidates_,
-                           pub_choosen_candidate_,
-                           pub_collision_vis_,
-                           pub_collision_cloud_,
                            pub_ws_cloud_;
 
+        struct Tes {
+            int a=3;
+            int b=4;
+        };
 
-        std::string detected_object_name_, // name of the detected object
-                    detected_object_namespace_;
+
+        std::shared_ptr<CalculatorEstimationSkillActionServer> actionServer_;
+        std::string                                       action_server_name_;
+
+
+        calculator_estimation_skill_msgs::CalculatorEstimationSkillFeedback feedback_, trigger_feedback_;
+        calculator_estimation_skill_msgs::CalculatorEstimationSkillResult   result_, trigger_result_;
+
+        calculator_estimation_skill_msgs::CalculatorResult msg_result_candidate_;
+
+        calculator_estimation_skill::CalculatorEstimationBase::candidateData candidate_Data_;
+
+        bool load_from_yaml_;
+        std::string package_path_;
+
+
+        std::string grasps_candidates_namespace_;
+
+
+        bool loadEstimationPipeline (int arg1, int arg2);
+        bool executeProcess (int _operation_mode, int arg1, int arg2);
+        bool executeDirectProcess (int arg1, int arg2);
+        bool readDataFromYaml ();
 
 
 

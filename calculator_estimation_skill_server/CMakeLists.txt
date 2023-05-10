@@ -48,6 +48,8 @@ add_library(${PROJECT_NAME}
             src/calculator_estimation_skill_server.cpp
             #and all child classes.cpp
             src/calculator_estimation_base.cpp
+            src/sum_estimation.cpp
+            src/sub_estimation.cpp
             )
 
 ## Set dependencies of the library

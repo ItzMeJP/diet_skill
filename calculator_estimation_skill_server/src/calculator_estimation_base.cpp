@@ -10,25 +10,29 @@ namespace calculator_estimation_skill {
 
 
     void CalculatorEstimationBase::setupBaseConfigurationFromParameterServer (ros::NodeHandlePtr &_node_handle,
-                                                                         ros::NodeHandlePtr &_private_node_handle,
-                                                                         std::string _configuration_namespace) {
+                                                                              ros::NodeHandlePtr &_private_node_handle,
+                                                                              std::string _configuration_namespace) {
 
         _private_node_handle->param<double>(_configuration_namespace + "weight", weight_, 1.0);
     }
 
 
+    int CalculatorEstimationBase::returnvalues() {
+        return valuescore;
+    }
 
+    bool CalculatorEstimationBase::start () {
 
+        ROS_INFO("Started"); 
+                                           
+        if(!this->run())
+        {return false;};
+        return true;
 
-    bool CalculatorEstimationBase::start (std::string _robot_base_frame, std::string _tf_base_reference_name_,
-                                     std::vector<std::string> _tf_candidates_name_arr_) {
+    }
 
-        ROS_INFO("t");                                    
-        // if(   !getTFsFromRobotBase()
-        //       || !getTFsFromReference()
-        //       || !this->run()
-        //         ){return false;};
-        // return true;
+    int CalculatorEstimationBase::getresult() {
+        return operation_result;
     }
 
 
