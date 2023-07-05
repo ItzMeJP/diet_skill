@@ -1,0 +1,12 @@
+#goal definition
+int32 operation_mode
+string name
+
+---
+#result definition
+diet_estimation_skill_msgs/Candidate result
+int32 percentage
+
+---
+#feedback
+int32 percentage

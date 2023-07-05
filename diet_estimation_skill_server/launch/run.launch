@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="action_name" default='DietEstimationSkill'/>
+    <arg name="yaml_0_diet_pipeline" default="$(find diet_estimation_skill_server)/yaml/fulano_pipeline.yaml"/>
+    <arg name="yaml_0_candidates_file" default="$(find diet_estimation_skill_server)/yaml/candidates.yaml"/>
+
+    <!-- Node Skill -->
+    <node name="diet_estimation_skill" pkg="diet_estimation_skill_server" type="diet_estimation_skill_server_node" output="screen">
+        <param name="action_name" value='$(arg action_name)' />
+        <rosparam command="load" ns="fulano" file="$(arg yaml_0_diet_pipeline)" subst_value="true"/>
+        <rosparam command="load" ns="fulano" file="$(arg yaml_0_candidates_file)" subst_value="true"/>
+
+    </node>
+</launch>
+

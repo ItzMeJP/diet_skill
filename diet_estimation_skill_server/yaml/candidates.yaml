@@ -1,0 +1,24 @@
+candidate_0:
+  food_name: 'apple'
+  gram: 100
+  protein_rate: 0.1
+  fat_rate: 0.3
+  fiber_rate: 0.1
+candidate_1:
+  food_name: 'hamburger'
+  gram: 300
+  protein_rate: 0.3
+  fat_rate: 0.6
+  fiber_rate: 0.01
+candidate_2:
+  gram: 300
+  food_name: 'pizza'
+  protein_rate: 0.15
+  fat_rate: 0.8
+  fiber_rate: 0.0
+candidate_3:
+  gram: 10
+  food_name: 'nut'
+  protein_rate: 0.2
+  fat_rate: 0.5
+  fiber_rate: 0.3
