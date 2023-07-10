@@ -13,13 +13,24 @@ namespace diet_estimation_skill {
     /// </summary>
     FiberSelector::~FiberSelector() {}
 
-
+    /// <summary>
+    /// Setup static configuration for current heuristic
+    /// </summary>
+    /// <param name="_node_handle"> public node handle.</param>
+    /// <param name="_private_node_handle"> private node handle.</param>
+    /// <param name="_configuration_namespace"> ros param configuration namespace.</param>
     void FiberSelector::setupMethodConfigurationFromParameterServer(ros::NodeHandlePtr &_node_handle,ros::NodeHandlePtr &_private_node_handle, std::string _configuration_namespace){
 
         _private_node_handle->param<double>(_configuration_namespace + "threshold", threshold_, 1.0);
         this->setupBaseConfigurationFromParameterServer(_node_handle, _private_node_handle, _configuration_namespace);
     }
 
+    /// <summary>
+    /// Run current heuristic
+    /// </summary>
+    /// <returns>true if succeeded, false if
+    /// * All food candidates extrapolate the threshold
+    /// </returns>
     bool FiberSelector::run(){
 
         protein_value_arr_.clear();
@@ -55,7 +66,7 @@ namespace diet_estimation_skill {
 
         if(std::accumulate(extrapolation_arr_.begin(), extrapolation_arr_.end(), 0) == (int)protein_value_arr_.size()){
 
-            ROS_ERROR_STREAM("All candidates extrapolate the Protein threshold.");
+            ROS_ERROR_STREAM("All candidates extrapolate the Fiber threshold.");
             return false;
         }
 

@@ -4,12 +4,6 @@ project(diet_estimation_skill_server)
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-
-
-
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   actionlib
@@ -21,8 +15,6 @@ find_package(PCL REQUIRED)
 
 
 file(GLOB PROGRAM_HEADERS RELATIVE ${PROJECT_SOURCE_DIR} "include/${PROJECT_NAME}/*.h")
-
-
 
 catkin_package(
                INCLUDE_DIRS
@@ -47,7 +39,6 @@ add_library(commons
 
 add_library(${PROJECT_NAME}
         src/diet_estimation_skill_server.cpp
-            #and all child classes.cpp
         src/diet_estimation_base.cpp
             src/heuristics/protein_selector.cpp
             src/heuristics/fiber_selector.cpp

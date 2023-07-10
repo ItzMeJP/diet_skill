@@ -16,7 +16,6 @@ int main(int argc, char** argv)
     skill.setupSkillConfigurationFromParameterServer(node_handle, private_node_handle);
     skill.start();
 
-
     ros::spin();
 
 }

@@ -1,19 +1,11 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>diet_estimation_skill_server</name>
-  <version>0.0.0</version>
+  <version>1.0.0</version>
   <description>The diet_estimation_skill_server package</description>
+  <maintainer email="joao.p.souza@inesctec.pt">joao_pedro_souza</maintainer>
 
-  <!-- One maintainer tag required, multiple allowed, one person per tag -->
-  <!-- Example:  -->
-  <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="artur@todo.todo">artur</maintainer>
-
-
-  <!-- One license tag required, multiple allowed, one license per tag -->
-  <!-- Commonly used license strings: -->
-  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
@@ -21,11 +13,9 @@
   <build_depend>actionlib</build_depend>
   <build_depend>diet_estimation_skill_msgs</build_depend>
 
-
   <exec_depend>roscpp</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>actionlib</exec_depend>
   <exec_depend>diet_estimation_skill_msgs</exec_depend>
-
 
 </package>

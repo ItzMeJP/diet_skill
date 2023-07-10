@@ -3,7 +3,7 @@
 
     <arg name="action_name" default='DietEstimationSkill'/>
     <arg name="yaml_0_diet_pipeline" default="$(find diet_estimation_skill_server)/yaml/fulano_pipeline.yaml"/>
-    <arg name="yaml_0_candidates_file" default="$(find diet_estimation_skill_server)/yaml/candidates.yaml"/>
+    <arg name="yaml_0_candidates_file" default="$(find diet_estimation_skill_server)/yaml/fulano_candidates.yaml"/>
 
     <!-- Node Skill -->
     <node name="diet_estimation_skill" pkg="diet_estimation_skill_server" type="diet_estimation_skill_server_node" output="screen">

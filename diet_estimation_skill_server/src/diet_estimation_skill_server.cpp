@@ -2,7 +2,7 @@
 
 namespace diet_estimation_skill {
 
-/// <summary>
+    /// <summary>
     /// Contructor
     /// </summary>
     DietEstimationSkill::DietEstimationSkill () {}
@@ -27,7 +27,7 @@ namespace diet_estimation_skill {
     /// <summary>
     /// Goal's callback
     /// </summary>
-    /// <param name="goal"> Grasp Estimation Goal (ros action goal).</param>
+    /// <param name="goal"> Diet Estimation Goal (ros action goal).</param>
     void DietEstimationSkill::executeCB (const diet_estimation_skill_msgs::DietEstimationSkillGoalConstPtr &goal) {
 
         ROS_INFO_STREAM("Requested operation mode : " << goal->operation_mode);
@@ -39,7 +39,7 @@ namespace diet_estimation_skill {
     }
 
     /// <summary>
-    /// Set skill successed state. Export the selected grasp solution
+    /// Set skill succeed state. Export the selected diet solution
     /// </summary>
     /// <param name="outcome"> message.</param>
     void DietEstimationSkill::setSucceeded (std::string outcome) {
@@ -59,12 +59,9 @@ namespace diet_estimation_skill {
     }
 
     /// <summary>
-    /// Action feedback setup
+    /// Action feedback setup. Allow to update the feedback msg
     /// </summary>
-    /// <param name="outputStr">string in which the translated statement will be added.</param>
-    /// <param name="statement">digital write statement to translate.</param>
-    /// <param name="indentation">number of spaces to write on the left of the statement.</param>
-    /// <returns>true if succeded, false otherwise.</returns>
+    /// <param name="percentage"> percentage value.</param>
     void DietEstimationSkill::feedback (float percentage) {
         feedback_.percentage  = percentage;
         actionServer_->publishFeedback(feedback_);
@@ -73,9 +70,6 @@ namespace diet_estimation_skill {
     /// <summary>
     /// Action's preempt setup
     /// </summary>
-    /// <param name="outputStr">string in which the translated statement will be added.</param>
-    /// <param name="statement">digital write statement to translate.</param>
-    /// <param name="indentation">number of spaces to write on the left of the statement.</param>
     /// <returns>true if succeded, false otherwise.</returns>
     bool DietEstimationSkill::checkPreemption () {
         if (actionServer_->isPreemptRequested() || !ros::ok()) {
@@ -106,52 +100,17 @@ namespace diet_estimation_skill {
     }
 
     /// <summary>
-    /// Start the grasp estimation pipeline after the goal has been received. Run accord to preload_support_ parameter:
-    /// *preload_support_ -> false: the complete pipeline is executed (Load + Run).
-    /// *preload_support_ -> true: enable the _operation mode argument.
+    /// Start the diet estimation pipeline after the goal has been received.
     /// </summary>
     /// <param name="_operation mode">
-    /// Integer representing the operation mode.
-    /// * 0 -> Just Load data
-    /// * 1 -> Run the pipeline without loading (return error if no previously objected data load is performed.)
-    /// </param>
-    /// <param name="_private_node_handle">ros private node handle</param>
     /// <returns>true if succeeded, otherwise false </returns>
-/*    bool GraspEstimationSkill::executeProcess (int _operation_mode) {
-
-        if (!preload_support_) {
-            return (executeDirectProcess());
-        } else {
-
-            if (_operation_mode == 1 && preload_ok_) {
-                preload_ok_ = false;
-                return (executeStandloneProcess());
-            } else if (_operation_mode == 0)
-                return (executePreLoad());
-            else if (!preload_ok_) {
-                ROS_ERROR_STREAM("No loaded data found");
-                return false;
-            }
-
-        }
-    }*/
-
     bool DietEstimationSkill::executeProcess (int _operation_mode) {
 
-
+        feedback (0);
         if (_operation_mode == OPERATION_MODE::DIRECT){ //Load and Run the Pipeline
             return (executeDirectProcess());
         }
-        /*else if (_operation_mode == OPERATION_MODE::PRE_LOAD) { // Just Load
-            return (executePreLoad());
-        }
-        else if (_operation_mode == OPERATION_MODE::STANDALONE_RUN && preload_ok_) { // Just Run the Pipeline
-            return (executeStandaloneProcess());
-        }
-        else if (!preload_ok_) {
-            ROS_ERROR_STREAM("No loaded data found");
-            return false;
-        }*/
+
         return true;
 
     }
@@ -174,6 +133,10 @@ namespace diet_estimation_skill {
         return true;
     }
 
+    /// <summary>
+    /// Load the processing pipeline
+    /// </summary>
+    /// <returns>true if succeeded to load the pipeline, otherwise false </returns>
     bool DietEstimationSkill::loadEstimationPipeline () {
 
         ROS_INFO_STREAM("Reading pipeline from parameter server");
@@ -196,12 +159,9 @@ namespace diet_estimation_skill {
             for (XmlRpc::XmlRpcValue::iterator it = xml_param.begin(); it != xml_param.end(); ++it) {
                 std::string method_name = it->first;
 
-                // remove the method name prefix. More safe way to detect the method name
                 pos = method_name.find(delimiter);
                 pre_delimiter = method_name.substr(0,pos);
                 method_name.erase(0, pos + delimiter.length());
-
-                //ROS_DEBUG_STREAM("Method Name: " << method_name);
 
                 if (method_name=="protein_scorer") {
                     method.reset(new ProteinSelector());
@@ -212,7 +172,6 @@ namespace diet_estimation_skill {
                     ROS_ERROR_STREAM("Method name " << method_name << " is not supported by the server.");
                 }
 
-                //recover back the method prefix
                 method_name = pre_delimiter + delimiter + method_name;
 
                 if (method) {
@@ -230,12 +189,12 @@ namespace diet_estimation_skill {
             ROS_ERROR_STREAM("The diet estimation pipeline is empty.");
             return false;
         }
-
+        feedback (20);
         return true;
     }
 
     /// <summary>
-    /// Get the total number of grasping candidates into the ROSPARAM server
+    /// Get the total number of food candidates into the ROSPARAM server
     /// </summary>
     /// <returns> return false if:
     /// *None grasping candidate is found
@@ -264,9 +223,16 @@ namespace diet_estimation_skill {
         }
 
         ROS_INFO_STREAM("Number of detected grasp candidates: " << number_of_candidates_);
+        feedback (10);
         return true;
     }
 
+    /// <summary>
+    /// Get food candidates from the ROSPARAM server
+    /// </summary>
+    /// <returns> return false if:
+    /// *None diet candidate information is found
+    /// </returns>
     bool DietEstimationSkill::readDataCandidatesFromParameterServer(){
 
         ROS_INFO_STREAM("Reading candidates from parameter server.");
@@ -307,8 +273,8 @@ namespace diet_estimation_skill {
                                         " \n: Fiber Rate" << candidate.fiber_rate << "]");
         }
 
+        feedback (30);
         return true;
-
 
     }
 
@@ -327,6 +293,10 @@ namespace diet_estimation_skill {
 
     }
 
+    /// <summary>
+    /// Run each heuristic into processing pipeline
+    /// </summary>
+    /// <returns>true if the heuristic run correctly, otherwise false </returns>
     bool DietEstimationSkill::runMethods () {
 
 
@@ -337,12 +307,25 @@ namespace diet_estimation_skill {
                 return false;
             }
             candidate_list_ = estimationPipelineArrPtr_->at(i)->getResultList();
+
         }
+
+        feedback (75);
 
         return true;
     }
 
+    /// <summary>
+    /// Get the best candidate after the processing pipeline execution
+    /// </summary>
+    /// <returns>false if the candidate list is empty, otherwise true </returns>
     bool DietEstimationSkill::getResult(){
+
+        if(candidate_list_.empty()){
+            ROS_ERROR_STREAM("Candidate list is empty. Unable to select best candidate.");
+            return false;
+        }
+
 
         std::sort( candidate_list_.begin(),
                    candidate_list_.end(),
@@ -351,7 +334,7 @@ namespace diet_estimation_skill {
         msg_result_candidate_ = std::get<0>(candidate_list_.at(0));
 
         ROS_INFO_STREAM("Selected candidate: " << msg_result_candidate_);
-
+        feedback (100);
         return true;
 
     }

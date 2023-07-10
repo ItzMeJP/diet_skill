@@ -1,6 +1,5 @@
 #include <diet_estimation_skill_server/heuristics/protein_selector.h>
 
-
 namespace diet_estimation_skill {
 
     /// <summary>
@@ -14,12 +13,24 @@ namespace diet_estimation_skill {
     ProteinSelector::~ProteinSelector() {}
 
 
+    /// <summary>
+    /// Setup static configuration for current heuristic
+    /// </summary>
+    /// <param name="_node_handle"> public node handle.</param>
+    /// <param name="_private_node_handle"> private node handle.</param>
+    /// <param name="_configuration_namespace"> ros param configuration namespace.</param>
     void ProteinSelector::setupMethodConfigurationFromParameterServer(ros::NodeHandlePtr &_node_handle,ros::NodeHandlePtr &_private_node_handle, std::string _configuration_namespace){
 
         _private_node_handle->param<double>(_configuration_namespace + "threshold", threshold_, 1.0);
         this->setupBaseConfigurationFromParameterServer(_node_handle, _private_node_handle, _configuration_namespace);
     }
 
+    /// <summary>
+    /// Run current heuristic
+    /// </summary>
+    /// <returns>true if succeeded, false if
+    /// * All food candidates extrapolate the threshold
+    /// </returns>
     bool ProteinSelector::run(){
 
         protein_value_arr_.clear();
