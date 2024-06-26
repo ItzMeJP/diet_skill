@@ -6,7 +6,7 @@
 
 // Skill msgs includes
 #include <diet_estimation_skill_msgs/DietEstimationSkillAction.h>
-#include <diet_estimation_skill_msgs/DietResult.h>
+#include <diet_estimation_skill_msgs/Candidate.h>
 
 // Skill includes
 #include <diet_estimation_skill_server/diet_estimation_base.h>

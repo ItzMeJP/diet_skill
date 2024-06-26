@@ -29,6 +29,13 @@ pipeline structure.
 Diet estimation pipeline.
 </p>
 
+### 2.1. Setup package
+
+
+
+
+
+
 ### 2.1. Candidates dataset
 The candidate.yaml is defined by patient and describes the feasible food candidate choices.
 One file per patient is necessary and are provided by **/patient_name_candidates.yaml**.
@@ -62,7 +69,7 @@ Select the bast candidate by amount of fiber in grams. If any value is under the
 * threshold: threshold value in grams to eliminate candidate.
 * weight: a scalar value of heuristic importance. Bigger value, more this heuristic affect the overall result.
 
-## 3. How to run
+## 4. How to run
 In the terminal execute the server by typing:
 
 ```
