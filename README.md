@@ -11,7 +11,7 @@
 
 ## <a name="overview"></a> 1. Overview
 
-This package is an example package on how implement a ROS Action Skill implementation orientated to modularity and configurability. 
+This package is an example package on how implement a ROS Action Skill implementation orientated to modularity and configurability.
 This examples takes into consideration ros, actionlib, C++ inheritance and polymorphisms, therefore the following prerequisites should be take place before the package study:
 
 * [ROS](http://wiki.ros.org/ROS/Tutorials)
@@ -21,10 +21,10 @@ This examples takes into consideration ros, actionlib, C++ inheritance and polym
 
 ## <a name="overview_ex"></a> 2. Example Overview
 
-This examples relies on help nutritionist choose the best food to a patient according to a sequence of heuristics which can be defined into a 
+This examples relies on help nutritionist choose the best food to a patient according to a sequence of heuristics which can be defined into a
 pipeline structure.
 
-![alt text](images/pipeline_flowchart.jpg)
+![alt text](diet_estimation_skill_server/images/pipeline_flowchart.jpg)
 <p align="center">
 Diet estimation pipeline.
 </p>
@@ -39,7 +39,7 @@ Diet estimation pipeline.
 ### 2.1. Candidates dataset
 The candidate.yaml is defined by patient and describes the feasible food candidate choices.
 One file per patient is necessary and are provided by **/patient_name_candidates.yaml**.
-The dataset file orders the candidates by suffix index, e.g., *candidate_n* is the n-th candidate. An example can be verified [here](../yaml/fulano_candidates.yaml):
+The dataset file orders the candidates by suffix index, e.g., *candidate_n* is the n-th candidate. An example can be verified [here](diet_estimation_skill_server/yaml/fulano_candidates.yaml):
 
 
 ### 2.2. Pipeline definition
@@ -62,7 +62,7 @@ pipeline:
 #### 2.3.1. Protein scorer
 Select the bast candidate by amount of protein in grams. If any value is under the threshold value, the candidate is automatically removed. Parameter list:
 * threshold: threshold value in grams to eliminate candidate.
-* weight: a scalar value of heuristic importance. Bigger value, more this heuristic affect the overall result. 
+* weight: a scalar value of heuristic importance. Bigger value, more this heuristic affect the overall result.
 
 #### 2.3.2. Fiber scorer
 Select the bast candidate by amount of fiber in grams. If any value is under the threshold value, the candidate is automatically removed. Parameter list:
@@ -73,7 +73,7 @@ Select the bast candidate by amount of fiber in grams. If any value is under the
 In the terminal execute the server by typing:
 
 ```
-roslaunch diet_estimation_skill_server run.launch 
+roslaunch diet_estimation_skill_server run.launch
 ```
 
 Call the goal to "Fulano" patient:
@@ -96,5 +96,5 @@ goal:
 
 Check the result by:
 ```
-rostopic echo /DietEstimationSkill/result 
+rostopic echo /DietEstimationSkill/result
 ```
