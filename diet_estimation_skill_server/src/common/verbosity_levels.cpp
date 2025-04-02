@@ -64,7 +64,17 @@ namespace verbosity_levels {
 		return true;
 	}
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   </verbosity_levels-functions>  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        bool getVerbosityLevelROS(std::string name) {
+            std::map<std::string, ros::console::levels::Level> loggers;
+            ros::console::get_loggers(loggers);
+            std::map<std::string, ros::console::levels::Level>::iterator logger = loggers.find(name);
 
+            if (logger != loggers.end()) {
+                return logger->second;
+            }
+
+            return -1;
+        }
 
 } /* namespace verbosity_levels */
 } /* namespace my_action_skill */

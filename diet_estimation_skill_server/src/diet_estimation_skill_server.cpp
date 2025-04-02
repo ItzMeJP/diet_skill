@@ -142,6 +142,7 @@ namespace diet_estimation_skill {
         ROS_INFO_STREAM("Reading pipeline from parameter server");
 
         estimationPipelineArrPtr_->clear();
+        estimationPipelineDataArrPtr_->clear();
 
         //just to know the order of the pipeline metrics
         XmlRpc::XmlRpcValue xml_param;
@@ -153,6 +154,7 @@ namespace diet_estimation_skill {
             //ROS_DEBUG_STREAM("xml_param: " << xml_param);
 
             DietEstimationBase::Ptr           method;
+            DietEstimationBase::DataPtr       data;
             std::string delimiter = "_", pre_delimiter;
             size_t pos = 0;
             int current_it = 0;
@@ -165,8 +167,11 @@ namespace diet_estimation_skill {
 
                 if (method_name=="protein_scorer") {
                     method.reset(new ProteinSelector());
+                    data.reset(new ProteinData());
+
                 } else if (method_name == "fiber_scorer") {
                     method.reset(new FiberSelector());
+                    data.reset(new FiberData());
                 }
                 else{
                     ROS_ERROR_STREAM("Method name " << method_name << " is not supported by the server.");
@@ -180,6 +185,7 @@ namespace diet_estimation_skill {
                                                                         configuration_namespace + "/" + method_name +
                                                                         "/");
                     estimationPipelineArrPtr_->push_back(method);
+                    estimationPipelineDataArrPtr_->push_back(data);
                 }
                 current_it++;
             }
@@ -303,6 +309,9 @@ namespace diet_estimation_skill {
         for (size_t i = 0; i < estimationPipelineArrPtr_->size(); ++i) {
 
             estimationPipelineArrPtr_->at(i)->setInitialList(candidate_list_);
+            estimationPipelineArrPtr_->at(i)->setData(estimationPipelineDataArrPtr_->at(i));
+            estimationPipelineArrPtr_->at(i)->
+
             if(!estimationPipelineArrPtr_->at(i)->run()){
                 return false;
             }

@@ -1,5 +1,5 @@
 #include <diet_estimation_skill_server/diet_estimation_base.h>
-
+#include <diet_estimation_skill_server/data/fiber_data.h>
 
 #include <math.h>
 #include <angles/angles.h>
@@ -18,6 +18,13 @@ namespace diet_estimation_skill {
 
         void setupMethodConfigurationFromParameterServer(ros::NodeHandlePtr &_node_handle,ros::NodeHandlePtr &_private_node_handle, std::string _configuration_namespace);
 
+
+        void setData(std::shared_ptr<DietEstimationDataBase> _d) override {
+            std::shared_ptr<FiberData> fiberData = std::dynamic_pointer_cast<FiberData>(_d);
+            if (fiberData) {
+                std::cout << "Valor de foo_fiber: " << fiberData->foo_fiber << std::endl;
+            }
+        }
 
     protected:
 

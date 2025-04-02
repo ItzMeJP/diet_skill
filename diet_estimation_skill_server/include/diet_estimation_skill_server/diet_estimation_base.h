@@ -1,11 +1,16 @@
 #include <ros/ros.h>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
+#include <memory>
+
+
 
 #include <diet_estimation_skill_msgs/Candidate.h>
 
 #include <diet_estimation_skill_server/common/tuple_operations.h>
 #include <diet_estimation_skill_server/common/std_vector_operations.h>
+#include <diet_estimation_skill_server/data/diet_estimation_data_base.h>
 
 #ifndef DIET_ESTIMATION_BASE_H
 #define DIET_ESTIMATION_BASE_H
@@ -19,13 +24,18 @@ namespace diet_estimation_skill {
         typedef std::shared_ptr<DietEstimationBase> Ptr;
         typedef std::vector<DietEstimationBase::Ptr> Arr;
         typedef std::shared_ptr<DietEstimationBase::Arr> ArrPtr;
+
+        typedef std::shared_ptr<DietEstimationDataBase> DataPtr;
+        typedef std::vector<DietEstimationBase::DataPtr> DataArr;
+        typedef std::shared_ptr<DietEstimationBase::DataArr> DataArrPtr;
+
         //typedef std::unordered_map <std::string, diet_estimation_skill_msgs::Candidate > FoodCandidates;
 
         //Constructor
         DietEstimationBase();
 
         //Destructor
-        ~DietEstimationBase();
+        virtual ~DietEstimationBase() = default;
 
         void setupBaseConfigurationFromParameterServer(ros::NodeHandlePtr& _node_handle, ros::NodeHandlePtr& _private_node_handle, std::string _configuration_namespace);
 
@@ -37,6 +47,8 @@ namespace diet_estimation_skill {
         void setInitialList(CandidateList _input_list);
 
         //void setFoodCandidates(FoodCandidates _input_candidates);
+
+        virtual void setData(std::shared_ptr<DietEstimationDataBase> _d) = 0;
 
     protected:
 

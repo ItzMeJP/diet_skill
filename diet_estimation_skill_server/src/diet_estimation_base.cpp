@@ -8,11 +8,6 @@ namespace diet_estimation_skill {
     /// </summary>
     DietEstimationBase::DietEstimationBase(){};
 
-    /// <summary>
-    /// Destructor
-    /// </summary>
-    DietEstimationBase::~DietEstimationBase(){};
-
 
     /// <summary>
     /// Setup static configuration for heuristic base
@@ -43,6 +38,7 @@ namespace diet_estimation_skill {
     void DietEstimationBase::setInitialList(CandidateList _input_list){
         candidate_list_ = _input_list;
     }
+
 
 
 }

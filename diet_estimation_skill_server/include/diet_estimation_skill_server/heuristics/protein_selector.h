@@ -1,4 +1,5 @@
 #include <diet_estimation_skill_server/diet_estimation_base.h>
+#include <diet_estimation_skill_server/data/protein_data.h>
 
 
 #include <math.h>
@@ -17,6 +18,14 @@ namespace diet_estimation_skill {
         ~ProteinSelector();
 
         void setupMethodConfigurationFromParameterServer(ros::NodeHandlePtr &_node_handle,ros::NodeHandlePtr &_private_node_handle, std::string _configuration_namespace);
+
+        void setData(std::shared_ptr<DietEstimationDataBase> _d) override {
+            std::shared_ptr<ProteinData> proteinData = std::dynamic_pointer_cast<ProteinData>(_d);
+            if (proteinData) {
+                std::cout << "Valor de foo_protein: " << proteinData->foo_protein << std::endl;
+            }
+        }
+
 
 
     protected:
