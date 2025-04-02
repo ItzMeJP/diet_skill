@@ -76,7 +76,6 @@ namespace diet_estimation_skill {
         diet_estimation_skill_msgs::Candidate msg_result_candidate_;
 
         DietEstimationBase::ArrPtr estimationPipelineArrPtr_ = std::make_shared<DietEstimationBase::Arr>();
-        DietEstimationBase::DataArrPtr estimationPipelineDataArrPtr_ = std::make_shared<DietEstimationBase::DataArr>();
 
         DietEstimationBase::CandidateList candidate_list_;
 

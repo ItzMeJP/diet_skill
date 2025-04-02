@@ -32,7 +32,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(commons
+add_library(mycommons
             src/common/verbosity_levels.cpp
             src/common/std_vector_operations.cpp
             )
@@ -45,7 +45,7 @@ add_library(${PROJECT_NAME}
 )
 
 ## Set dependencies of the library
-target_link_libraries(commons
+target_link_libraries(mycommons
                       ${PCL_LIBRARIES}
                       ${catkin_LIBRARIES}
                       )
@@ -53,7 +53,7 @@ target_link_libraries(commons
 target_link_libraries(${PROJECT_NAME}
                       ${catkin_LIBRARIES}
                       ${PCL_LIBRARIES}
-                      commons
+                      mycommons
                       )
 
 ## Define a executable
@@ -62,11 +62,7 @@ add_executable(${PROJECT_NAME}_node
 
 ## Define the executable dependencies
 target_link_libraries(${PROJECT_NAME}_node
-                      commons
+                      mycommons
                       ${catkin_LIBRARIES}
                       ${PCL_LIBRARIES}
                       ${PROJECT_NAME})
-
-
-
-
